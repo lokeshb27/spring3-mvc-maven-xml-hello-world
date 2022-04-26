@@ -38,19 +38,6 @@ pipeline {
                
           }
         }
-        
-        stage('Login') {
-          steps {
-	      sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		}
-		}
-
-        stage('Push') {
-           steps {
-	            sh 'docker push nginxtest logesh/nginxtest:$BUILD_NUMBER'
-			}
-		}
-	}
         /* stage("publish to nexus") {
             steps {
                 script {
