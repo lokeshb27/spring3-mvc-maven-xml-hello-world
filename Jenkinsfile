@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PATH = "/opt/apache-maven-3.8.5/bin:$PATH"
+        PATH = "/opt/apache-maven-3.8.2/bin:$PATH"
         }
     /*environment {
         // This can be nexus3 or nexus2
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Let's clone the source
-                    git 'https://github.com/lokeshb27/spring3-mvc-maven-xml-hello-world.git';
+                    git 'https://github.com/alimelus/spring3-mvc-maven-xml-hello-world.git';
                 }
             }
         }
@@ -33,26 +33,11 @@ pipeline {
            steps {
               
                 sh 'docker build -t nginxtest:latest .' 
-                  sh 'docker tag nginxtest logesh/nginxtest:latest'
-                sh 'docker tag nginxtest logesh/nginxtest:$BUILD_NUMBER'
+                  sh 'docker tag nginxtest sunku/nginxtest:latest'
+                sh 'docker tag nginxtest sunku/nginxtest:$BUILD_NUMBER'
                
           }
         }
-        
-        stage('Login') {
-
-	steps {
-	      sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-		}
-		}
-
-stage('Push') {
-
-	steps {
-	            sh 'docker push nginxtest logesh/nginxtest:$BUILD_NUMBER'
-			}
-		}
-	}
         /* stage("publish to nexus") {
             steps {
                 script {
