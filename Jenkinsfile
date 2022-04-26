@@ -38,14 +38,14 @@ pipeline {
                
           }
         }
-        stage('Login') {
+        stage('Docker Login') {
 
 			steps {
 				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 			}
 		}
 
-		stage('Push') {
+		stage('Docker Push') {
 
 			steps {
 				sh 'docker push nginxtest logesh/nginxtest:$BUILD_NUMBER'
