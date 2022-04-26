@@ -33,11 +33,28 @@ pipeline {
            steps {
               
                 sh 'docker build -t nginxtest:latest .' 
-                  sh 'docker tag nginxtest sunku/nginxtest:latest'
-                sh 'docker tag nginxtest sunku/nginxtest:$BUILD_NUMBER'
+                  sh 'docker tag nginxtest logesh/nginxtest:latest'
+                sh 'docker tag nginxtest logesh/nginxtest:$BUILD_NUMBER'
                
           }
         }
+        stage('Login') {
+
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push nginxtest logesh/nginxtest:$BUILD_NUMBER'
+			}
+		}
+	}
+        
+        
+    
         /* stage("publish to nexus") {
             steps {
                 script {
