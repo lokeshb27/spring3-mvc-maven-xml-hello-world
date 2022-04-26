@@ -2,6 +2,9 @@ pipeline {
     agent any
     environment {
         PATH = "/opt/apache-maven-3.8.5/bin:$PATH"
+	    registry = "logeshb27/dockerimages" 
+            registryCredential = 'dockerhub-cred-logesh' 
+             dockerImage = ''
         }
     /*environment {
         // This can be nexus3 or nexus2
@@ -38,17 +41,11 @@ pipeline {
                
           }
         }
-	    
-        stage("Docker Login") {
-
-			steps {
-				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR'
-			}
-		}
 
 		stage("Docker Push") {
 
 			steps {
+				docker.withRegistry( '', registryCredential )
 				sh 'docker push nginxtest logesh/nginxtest:$BUILD_NUMBER'
 			}
 		}
